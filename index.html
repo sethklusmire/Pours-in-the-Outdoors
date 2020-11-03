@@ -14,13 +14,13 @@
         <nav class="navbar is is-success">
             <div class="navbar-start">
                 <a href="" class="navbar-item">
-                    <h1 class="title">Will Hike 4 Beerz</h1>
+                    <h1 class="title">Pours in the Outdoors</h1>
                 </a>
             </div>
             <div class="navbar-end">
                     <a href="https://openweathermap.org/api" class="navbar-item button is-success">Weather</a>
-                    <a href="https://www.hikingproject.com/data" class="navbar-item button is-success">Find-a-trail</a>
-                    <a href="https://developers.zomato.com/" class="nav-item button is-success">Look up a Brewery</a>
+                    <a href="https://www.hikingproject.com/data" class="navbar-item button is-success">Trails</a>
+                    <a href="https://developers.zomato.com/" class="nav-item button is-success">Breweries</a>
             </div>
          </nav>
     </div>
@@ -30,22 +30,15 @@
                 <!-- SIDE MENU -->
                 <div class="block">
                     <aside class="menu">
-                        <p class="menu-label is-size-4">Label1</p>
-                        <ul class="menu-list">
-                            <li class="is-size-5"><a href="">link1</a></li>
-                            <li class="is-size-5"><a href="">link2</a></li>
-                            <li class="is-size-5"><a href="">link3</a></li>
-                        </ul>
-                        <p class="menu-label is-size-4">Label2</p>
-                        <ul class="menu-list">
-                            <li class="is-size-5"><a href="">link1</a></li>
-                            <li class="is-size-5"><a href="">link2</a></li>
-                            <li class="is-size-5"><a href="">link3</a></li>
+                        <p class="menu-label is-size-4">Past Searches</p>
+                        <!-- LOCAL STORAGE CLASS -->
+                        <ul class="menu-list past-searches">
+                            <li class="is-size-5 list-group-item"><a>past city and state</a></li>
                         </ul>
                     </aside>
                 </div>
             </div>
-            <div class="column is-9">
+            <div class="column is-7">
                 <!-- CONTENT BOX -->
                 <div class="block">
                     <div class="box">
@@ -53,8 +46,27 @@
                         <p>Everyone needs a little refreshment after a long walk throught the woods. Find out which of your favorite trails ends in a cold beer.</p>
                         <div class="field has-addons">
                             <p class="control is-expanded">
-                                <input type="text" class="input" placeholder="Enter keywords...">
+                                <!-- class for the CITY input -->
+                                <input type="text" class="input city-input" placeholder="Enter keywords...">
                             </p>
+                            <div class="dropdown is-right is-hoverable">
+                                <!-- class for the STATE array -->
+                                <div class="dropdown-trigger state-drop">
+                                  <button class="button" aria-haspopup="true" aria-controls="dropdown-menu6">
+                                    <span>Right aligned</span>
+                                    <span class="icon is-small">
+                                      <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                    </span>
+                                  </button>
+                                </div>
+                                <div class="dropdown-menu" id="dropdown-menu6" role="menu">
+                                  <div class="dropdown-content">
+                                    <div class="dropdown-item">
+                                      <p>Add the <code>is-right</code> modifier for a <strong>right-aligned</strong> dropdown.</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
                             <p class="control">
                                 <a href="" class="button is-info">Search</a>
                             </p>
@@ -62,7 +74,24 @@
                     </div>
                 </div>
             </div>
+            <!-- This is where the WEATHER will go -->
+            <div class="column is-2">
+                <div class="row">
+                    <div class="col">
+                      <div class="card my-1" style="height: 20rem">
+                        <div class="card-body" id="current">
+                          <h5 class="card-title city-name"></h5>
+                          <p class="temp"></p>
+                          <p class="humid"></p>
+                          <p class="wind-speed"></p>
+                          <p class="uv-index"></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
         </div>
     </div>
+
 </body>
 </html>
