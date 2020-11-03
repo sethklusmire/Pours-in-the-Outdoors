@@ -1,3 +1,19 @@
+.block {
+    background-color:azure;
+}
 body {
-  background-color: hsl(141, 53%, 53%);
+    background-color: azure;
+}
+
+.box {
+    background-color: rebeccapurple;
+}
+
+.navbar {
+    background-color: hsl(141, 53%, 53%);
+  }
+
+
+.footer {
+    background-color: azure;
 }
