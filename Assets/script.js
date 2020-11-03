@@ -1,6 +1,6 @@
 var body = document.querySelector("body");
 
-urlLink = "https://developers.zomato.com/api/v2.1/cities?q=Boulder";
+urlLink = "https://developers.zomato.com/api/v2.1/cities?q=Portland";
 
 function callAPI() {
   fetch(urlLink, {
@@ -13,11 +13,11 @@ function callAPI() {
       return response.json();
     })
     .then(function (data) {
-      console.log(data.location_suggestions[0].state_code);
+      console.log(data);
       for (var i = 0; i < data.location_suggestions.length; i++) {
-        if (data.location_suggestions[i].state_code === "CO") {
+        if (data.location_suggestions[i].state_code === "ME") {
           var cityID = data.location_suggestions[i].id;
-          return;
+          break;
         } else {
           var cityID = data.location_suggestions[0].id;
         }
@@ -147,7 +147,7 @@ function callAPI() {
                 detailsButton.textContent = "Details";
                 detailsButton.setAttribute("value", data.trails[i].url);
                 detailsButton.addEventListener("click", function () {
-                  window.open(detailsButton.value, "_target");
+                  window.open(this.value, "_target");
                 });
                 cardHolder.appendChild(hikePic);
                 cardHolder.appendChild(hikeName);
@@ -174,45 +174,45 @@ function calcDistance(lat1, lat2, long1, long2) {
 }
 
 //Need to add function to the last .then fetch after completed
-function createStuff() {
-  for (var i = 0; i < 10; i++) {
-    var cardHolder = document.createElement("section");
-    cardHolder.setAttribute("class", "hikeSection");
-    body.appendChild(cardHolder);
-    var hikePic = document.createElement("img");
-    hikePic.setAttribute("src", data.trails[i].imgMedium);
-    var hikeName = document.createElement("p");
-    hikeName.textContent = data.trails[i].name;
-    var hikeCity = document.createElement("p");
-    hikeCity.textContent = data.trails[i].location;
-    var elevationData = document.createElement("p");
-    elevationData.textContent =
-      "Max elevation: " +
-      data.trails[i].high +
-      " Min elevation: " +
-      data.trails[i].low;
-    var hikeDifficulty = document.createElement("p");
-    hikeDifficulty.textContent = data.trails.difficulty;
-    var selectButton = document.createElement("button");
-    selectButton.addEventListener("click", function () {
-      for (var i = 0; i < 9; i++) {
-        if (this.parentElement.nextElementSibling === null) {
-          this.parentElement.previousElementSibling.remove();
-        } else {
-          this.parentElement.nextElementSibling.remove();
-        }
-      }
-    });
-    var detailsButton = document.createElement("button");
-    detailsButton.setAttribute("value", data.trails[i].url);
-    detailsButton.addEventListener("click", function () {
-      console.log(detailsButton.value);
-      window.open(detailsButton.value, "_target");
-    });
-    cardHolder.appendChild(detailsButton);
-    cardHolder.appendChild(selectButton);
-    cardHolder.appendChild(hikeName);
-  }
-}
+// function createStuff() {
+//   for (var i = 0; i < 10; i++) {
+//     var cardHolder = document.createElement("section");
+//     cardHolder.setAttribute("class", "hikeSection");
+//     body.appendChild(cardHolder);
+//     var hikePic = document.createElement("img");
+//     hikePic.setAttribute("src", data.trails[i].imgMedium);
+//     var hikeName = document.createElement("p");
+//     hikeName.textContent = data.trails[i].name;
+//     var hikeCity = document.createElement("p");
+//     hikeCity.textContent = data.trails[i].location;
+//     var elevationData = document.createElement("p");
+//     elevationData.textContent =
+//       "Max elevation: " +
+//       data.trails[i].high +
+//       " Min elevation: " +
+//       data.trails[i].low;
+//     var hikeDifficulty = document.createElement("p");
+//     hikeDifficulty.textContent = data.trails.difficulty;
+//     var selectButton = document.createElement("button");
+//     selectButton.addEventListener("click", function () {
+//       for (var i = 0; i < 9; i++) {
+//         if (this.parentElement.nextElementSibling === null) {
+//           this.parentElement.previousElementSibling.remove();
+//         } else {
+//           this.parentElement.nextElementSibling.remove();
+//         }
+//       }
+//     });
+//     var detailsButton = document.createElement("button");
+//     detailsButton.setAttribute("value", data.trails[i].url);
+//     detailsButton.addEventListener("click", function () {
+//       console.log(detailsButton.value);
+//       window.open(detailsButton.value, "_target");
+//     });
+//     cardHolder.appendChild(detailsButton);
+//     cardHolder.appendChild(selectButton);
+//     cardHolder.appendChild(hikeName);
+//   }
+// }
 
 callAPI();
