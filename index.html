@@ -27,16 +27,17 @@
     <div class="block">
         <div class="columns">
             <div class="column is-2">
-                <!-- SIDE MENU -->
-                <div class="block">
-                    <aside class="menu">
-                        <p class="menu-label is-size-4">Past Searches</p>
-                        <!-- LOCAL STORAGE CLASS -->
-                        <ul class="menu-list past-searches">
-                            <li class="is-size-5 list-group-item"><a>past city and state</a></li>
-                        </ul>
-                    </aside>
-                </div>
+                <div class="row">
+                    <div class="col">
+                      <div class="card my-1" style="height: 20rem">
+                        <div class="card-body" id="current">
+                          <h5 class="card-title past-searches">Past</h5>
+                          <ul class="list-group" id="past-search">
+                            <li class="list-group-item"></li>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
             </div>
             <div class="column is-7">
                 <!-- CONTENT BOX -->
@@ -75,21 +76,9 @@
                 </div>
             </div>
             <!-- This is where the WEATHER will go -->
-            <div class="column is-2">
-                <div class="row">
-                    <div class="col">
-                      <div class="card my-1" style="height: 20rem">
-                        <div class="card-body" id="current">
-                          <h5 class="card-title city-name"></h5>
-                          <p class="temp"></p>
-                          <p class="humid"></p>
-                          <p class="wind-speed"></p>
-                          <p class="uv-index"></p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-            </div>
+            <aside class="column is-1">
+                            
+                </aside>
         </div>
     </div>
 <script src="Assets/script.js" type="application/javascript"></script>

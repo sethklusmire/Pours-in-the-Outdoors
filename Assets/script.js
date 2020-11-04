@@ -1,4 +1,5 @@
 var body = document.querySelector("body");
+var aside = document.querySelector("aside")
 
 urlLink = "https://developers.zomato.com/api/v2.1/cities?q=Denver";
 
@@ -48,35 +49,38 @@ function callAPI() {
             userLon +
             "&exclude=current,minutely,daily,alerts&units=imperial&appid=96bbb97e9dec979e1eede50c7d6896d7";
 
-          // fetch(urlWeather)
-          //   .then(function (response) {
-          //     return response.json();
-          //   })
-          //   .then(function (data) {
-          //     console.log(data);
+          
+ fetch(urlWeather)
+            .then(function (response) {
+              return response.json();
+            })
+            .then(function (data) {
+              console.log(data);
 
-          //     for (var i = 0; i < 10; i++) {
-          //       var hourlyWeatherBox = document.createElement("section");
-          //       body.appendChild(hourlyWeatherBox);
-          //       currentTime = new Date(Number(data.hourly[i].dt) * 1000);
-          //       currentTime = currentTime.toLocaleString();
-          //       var timeBlock = document.createElement("p");
-          //       timeBlock.textContent = currentTime.split(" ")[1];
-          //       hourlyWeatherBox.appendChild(timeBlock);
-          //       weatherImg = document.createElement("img");
-          //       weatherImg.setAttribute(
-          //         "src",
-          //         "http://openweathermap.org/img/wn/" +
-          //           data.hourly[i].weather[0].icon +
-          //           "@2x.png"
-          //       );
-          //       hourlyWeatherBox.appendChild(weatherImg);
-          //       hourlyTemp = document.createElement("p");
-          //       hourlyTemp.textContent = data.hourly[i].temp + " °F";
-          //       hourlyWeatherBox.appendChild(hourlyTemp);
-          //       console.log(currentTime.split(" ")[1]);
-          //     }
-          //   });
+              for (var i = 0; i < 10; i++) {
+                var hourlyWeatherBox = document.createElement("section");
+                aside.appendChild(hourlyWeatherBox);
+                currentTime = new Date(Number(data.hourly[i].dt) * 1000);
+                currentTime = currentTime.toLocaleString();
+                var timeBlock = document.createElement("p");
+                timeBlock.textContent = currentTime.split(" ")[1];
+                hourlyWeatherBox.appendChild(timeBlock);
+                weatherImg = document.createElement("img");
+                weatherImg.setAttribute(
+                  "src",
+                  "http://openweathermap.org/img/wn/" +
+                    data.hourly[i].weather[0].icon +
+                    "@2x.png"
+                );
+                hourlyWeatherBox.appendChild(weatherImg);
+                hourlyTemp = document.createElement("p");
+                hourlyTemp.textContent = data.hourly[i].temp + " °F";
+                hourlyWeatherBox.appendChild(hourlyTemp);
+                console.log(currentTime.split(" ")[1]);
+              }
+            });
+
+            
 
           urlHike =
             "https://www.hikingproject.com/data/get-trails?lat=" +
