@@ -1,12 +1,14 @@
 var body = document.querySelector("body");
-
 var userCity = document.querySelector(".input");
 var searchButton = document.querySelector(".is-info");
-console.log(searchButton);
+
 var urlLink = searchButton.addEventListener("click", function () {
   urlLink = "https://developers.zomato.com/api/v2.1/cities?q=" + userCity.value;
   callAPI();
+  // var cardSelector = document.getElementsByClassName(".hikecard");
+  // cardSelector.setAttribute("style", "visibility: visible");
 });
+
 
 var usStates = [
   { name: 'ALABAMA', abbreviation: 'AL'},
@@ -80,6 +82,7 @@ var usStates = [
 
       console.log(usStates)
 
+
 function callAPI() {
   fetch(urlLink, {
     headers: {
@@ -126,17 +129,11 @@ function callAPI() {
             userLon +
             "&exclude=current,minutely,daily,alerts&units=imperial&appid=96bbb97e9dec979e1eede50c7d6896d7";
 
-
           fetch(urlWeather)
-
-
             .then(function (response) {
               return response.json();
             })
             .then(function (data) {
-              console.log(data);
-
-
               for (var i = 0; i < 10; i++) {
                 var hourlyWeatherBox = document.createElement("section");
                 body.appendChild(hourlyWeatherBox);
@@ -156,10 +153,8 @@ function callAPI() {
                 hourlyTemp = document.createElement("p");
                 hourlyTemp.textContent = data.hourly[i].temp + " °F";
                 hourlyWeatherBox.appendChild(hourlyTemp);
-                console.log(currentTime.split(" ")[1]);
               }
             });
-
 
           urlHike =
             "https://www.hikingproject.com/data/get-trails?lat=" +
@@ -173,31 +168,35 @@ function callAPI() {
               return response.json();
             })
             .then(function (data) {
-              if (data.length < 4) {
-                data.length = 4;
+              var hikingArray = data.trails;
+              console.log(hikingArray);
+              if (hikingArray.length > 4) {
+                hikingArray.length = 4;
               }
-              for (var i = 0; i < data.trails.length; i++) {
-                var cardHolder = document.createElement("section");
+              console.log(hikingArray);
 
-                body.appendChild(cardHolder);
-                var hikePic = document.createElement("img");
-                hikePic.setAttribute("src", data.trails[i].imgSmallMed);
-                var hikeName = document.createElement("p");
-                hikeName.textContent = data.trails[i].name;
+              for (var i = 0; i < hikingArray.length; i++) {
+                console.log(i);
+                var cardHolder = document.querySelector("#hikecard" + [i]);
+                // body.appendChild(cardHolder);
+                var hikePic = document.querySelector("#hikeimg" + [i]);
+                hikePic.setAttribute("src", hikingArray[i].imgSmallMed);
+                var hikeName = document.querySelector("#hiketitle" + [i]);
+                hikeName.textContent = hikingArray[i].name;
                 var hikeCity = document.createElement("p");
-                hikeCity.textContent = data.trails[i].location;
+                hikeCity.textContent = hikingArray[i].location;
                 var elevationData = document.createElement("p");
                 elevationData.textContent =
                   "Max elevation: " +
-                  data.trails[i].high +
+                  hikingArray[i].high +
                   " Min elevation: " +
-                  data.trails[i].low;
+                  hikingArray[i].low;
                 var hikeDifficulty = document.createElement("p");
-                hikeDifficulty.textContent = data.trails.difficulty;
+                hikeDifficulty.textContent = hikingArray.difficulty;
                 var selectButton = document.createElement("button");
                 selectButton.setAttribute("value", [
-                  data.trails[i].latitude,
-                  data.trails[i].longitude,
+                  hikingArray[i].latitude,
+                  hikingArray[i].longitude,
                 ]);
                 selectButton.textContent = "Select";
                 selectButton.addEventListener("click", function () {
@@ -208,11 +207,15 @@ function callAPI() {
                   var long1 = selectionCoodsArray[1];
                   // console.log(selectionCoodsArray);
                   // console.log(selectButton.value);
-                  for (var i = 0; i < data.trails.length - 1; i++) {
-                    if (this.parentElement.nextElementSibling === null) {
-                      this.parentElement.previousElementSibling.remove();
+                  console.log(this.parentElement.parentElement);
+                  for (var i = 0; i < hikingArray.length - 1; i++) {
+                    if (
+                      this.parentElement.parentElement.nextElementSibling ===
+                      null
+                    ) {
+                      this.parentElement.parentElement.previousElementSibling.remove();
                     } else {
-                      this.parentElement.nextElementSibling.remove();
+                      this.parentElement.parentElement.nextElementSibling.remove();
                     }
                   }
                   this.remove();
@@ -229,25 +232,26 @@ function callAPI() {
                   restaurantArray.sort(function (a, b) {
                     return a.distance - b.distance;
                   });
-                  if (restaurantArray.length > 10) {
-                    restaurantArray.length = 10;
+                  if (restaurantArray.length > 4) {
+                    restaurantArray.length = 4;
                   }
-
+                  console.log(restaurantArray);
                   for (var k = 0; k < restaurantArray.length; k++) {
-                    var breweryBox = document.createElement("section");
-                    body.appendChild(breweryBox);
-                    var restaurantImg = document.createElement("img");
+                    var breweryBox = document.querySelector("#brewcard" + [k]);
+                    var restaurantImg = document.querySelector(
+                      "#brewimg" + [k]
+                    );
                     restaurantImg.setAttribute(
                       "src",
                       restaurantArray[k].restaurant.thumb
                     );
-                    breweryBox.appendChild(restaurantImg);
-                    var breweryName = document.createElement("p");
+
+                    var breweryName = document.querySelector(
+                      "#brewTitle" + [k]
+                    );
                     breweryName.textContent =
                       restaurantArray[k].restaurant.name;
-                    breweryBox.appendChild(breweryName);
                     var breweryAddress = document.createElement("p");
-                    console.log(restaurantArray[k].restaurant.location.address);
                     breweryAddress.textContent =
                       restaurantArray[k].restaurant.location.address;
                     breweryBox.appendChild(breweryAddress);
@@ -267,8 +271,6 @@ function callAPI() {
                     breweryDetailsButton.textContent = "Details";
                     breweryBox.appendChild(breweryDetailsButton);
                     breweryDetailsButton.addEventListener("click", function () {
-                      console.log("clicked");
-                      console.log(this.value);
                       window.open(this.value, "_target");
                     });
                   }
@@ -280,8 +282,8 @@ function callAPI() {
                 detailsButton.addEventListener("click", function () {
                   window.open(this.value, "_target");
                 });
-                cardHolder.appendChild(hikePic);
-                cardHolder.appendChild(hikeName);
+
+                // cardHolder.appendChild(hikeName);
                 cardHolder.appendChild(hikeCity);
                 cardHolder.appendChild(elevationData);
                 cardHolder.appendChild(hikeDifficulty);
