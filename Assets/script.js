@@ -1,4 +1,5 @@
 var body = document.querySelector("body");
+
 var userCity = document.querySelector(".input");
 var searchButton = document.querySelector(".is-info");
 console.log(searchButton);
@@ -6,6 +7,7 @@ var urlLink = searchButton.addEventListener("click", function () {
   urlLink = "https://developers.zomato.com/api/v2.1/cities?q=" + userCity.value;
   callAPI();
 });
+
 
 function callAPI() {
   fetch(urlLink, {
@@ -53,12 +55,16 @@ function callAPI() {
             userLon +
             "&exclude=current,minutely,daily,alerts&units=imperial&appid=96bbb97e9dec979e1eede50c7d6896d7";
 
+
           fetch(urlWeather)
+
+
             .then(function (response) {
               return response.json();
             })
             .then(function (data) {
               console.log(data);
+
 
               for (var i = 0; i < 10; i++) {
                 var hourlyWeatherBox = document.createElement("section");
@@ -82,6 +88,7 @@ function callAPI() {
                 console.log(currentTime.split(" ")[1]);
               }
             });
+
 
           urlHike =
             "https://www.hikingproject.com/data/get-trails?lat=" +
