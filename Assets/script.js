@@ -1,10 +1,11 @@
 var body = document.querySelector("body");
-var userCity = document.getElementsByClassName("input");
-var searchButton = document.getElementsByClassName("button");
-searchButton.addEventListener("click", function () {
-  console.log(userCity.value);
+var userCity = document.querySelector(".input");
+var searchButton = document.querySelector(".is-info");
+console.log(searchButton);
+var urlLink = searchButton.addEventListener("click", function () {
+  urlLink = "https://developers.zomato.com/api/v2.1/cities?q=" + userCity.value;
+  callAPI();
 });
-urlLink = "https://developers.zomato.com/api/v2.1/cities?q=Denver";
 
 function callAPI() {
   fetch(urlLink, {
@@ -52,35 +53,35 @@ function callAPI() {
             userLon +
             "&exclude=current,minutely,daily,alerts&units=imperial&appid=96bbb97e9dec979e1eede50c7d6896d7";
 
-          // fetch(urlWeather)
-          //   .then(function (response) {
-          //     return response.json();
-          //   })
-          //   .then(function (data) {
-          //     console.log(data);
+          fetch(urlWeather)
+            .then(function (response) {
+              return response.json();
+            })
+            .then(function (data) {
+              console.log(data);
 
-          //     for (var i = 0; i < 10; i++) {
-          //       var hourlyWeatherBox = document.createElement("section");
-          //       body.appendChild(hourlyWeatherBox);
-          //       currentTime = new Date(Number(data.hourly[i].dt) * 1000);
-          //       currentTime = currentTime.toLocaleString();
-          //       var timeBlock = document.createElement("p");
-          //       timeBlock.textContent = currentTime.split(" ")[1];
-          //       hourlyWeatherBox.appendChild(timeBlock);
-          //       weatherImg = document.createElement("img");
-          //       weatherImg.setAttribute(
-          //         "src",
-          //         "http://openweathermap.org/img/wn/" +
-          //           data.hourly[i].weather[0].icon +
-          //           "@2x.png"
-          //       );
-          //       hourlyWeatherBox.appendChild(weatherImg);
-          //       hourlyTemp = document.createElement("p");
-          //       hourlyTemp.textContent = data.hourly[i].temp + " °F";
-          //       hourlyWeatherBox.appendChild(hourlyTemp);
-          //       console.log(currentTime.split(" ")[1]);
-          //     }
-          //   });
+              for (var i = 0; i < 10; i++) {
+                var hourlyWeatherBox = document.createElement("section");
+                body.appendChild(hourlyWeatherBox);
+                currentTime = new Date(Number(data.hourly[i].dt) * 1000);
+                currentTime = currentTime.toLocaleString();
+                var timeBlock = document.createElement("p");
+                timeBlock.textContent = currentTime.split(" ")[1];
+                hourlyWeatherBox.appendChild(timeBlock);
+                weatherImg = document.createElement("img");
+                weatherImg.setAttribute(
+                  "src",
+                  "http://openweathermap.org/img/wn/" +
+                    data.hourly[i].weather[0].icon +
+                    "@2x.png"
+                );
+                hourlyWeatherBox.appendChild(weatherImg);
+                hourlyTemp = document.createElement("p");
+                hourlyTemp.textContent = data.hourly[i].temp + " °F";
+                hourlyWeatherBox.appendChild(hourlyTemp);
+                console.log(currentTime.split(" ")[1]);
+              }
+            });
 
           urlHike =
             "https://www.hikingproject.com/data/get-trails?lat=" +
@@ -94,6 +95,9 @@ function callAPI() {
               return response.json();
             })
             .then(function (data) {
+              if (data.length < 4) {
+                data.length = 4;
+              }
               for (var i = 0; i < data.trails.length; i++) {
                 var cardHolder = document.createElement("section");
 
@@ -267,5 +271,3 @@ function calcDistance(lat1, lat2, long1, long2) {
 //     cardHolder.appendChild(hikeName);
 //   }
 // }
-
-callAPI();
