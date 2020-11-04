@@ -1,5 +1,9 @@
 var body = document.querySelector("body");
-
+var userCity = document.getElementsByClassName("input");
+var searchButton = document.getElementsByClassName("button");
+searchButton.addEventListener("click", function () {
+  console.log(userCity.value);
+});
 urlLink = "https://developers.zomato.com/api/v2.1/cities?q=Denver";
 
 function callAPI() {
