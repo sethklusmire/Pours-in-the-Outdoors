@@ -3,22 +3,37 @@ var userCity = document.querySelector(".input");
 var searchButton = document.querySelector(".is-info");
 var hikeHours = "";
 var userState = "";
+let hikeCards = document.querySelectorAll(".hikecard");
+let brewCards = document.querySelectorAll(".brewcard");
 
+for (let i = 0; i < hikeCards.length; i++) {
+  let card = hikeCards[i];
+  card.classList.add("hidden");
+}
+for (let i = 0; i < brewCards.length; i++) {
+  let card = brewCards[i];
+  card.classList.add("hidden");
+}
 var urlLink = searchButton.addEventListener("click", function () {
   urlLink = "https://developers.zomato.com/api/v2.1/cities?q=" + userCity.value;
   var stateDropdown = document.getElementById("state");
   userState = stateDropdown.value;
-  var hoursDropdown = document.getElementById("time");
-  hikeHours = hoursDropdown.value;
-  
+
+
   callAPI(urlLink);
+  
   // let searchInput = document.getElementById("city-input");
   if (searches.length === 10) {
     searches.pop();
   }
+  
   searches.unshift([userCity.value, userState, hikeHours]);
   localStorage.setItem("searches", JSON.stringify(searches));
+  
   renderSearches();
+  
+  
+          
   // var cardSelector = document.getElementsByClassName(".hikecard");
   // cardSelector.setAttribute("style", "visibility: visible");
 });
@@ -146,13 +161,14 @@ function callAPI(urlLink) {
             .then(function (data) {
               console.log(data);
               var hourlyWeatherBox = document.createElement("section");
-              body.appendChild(hourlyWeatherBox);
+              var weather = document.getElementById("weather")
+              weather.appendChild(hourlyWeatherBox);
               currentTime = new Date(Number(data.daily[0].dt) * 1000);
               console.log(currentTime);
               currentTime = currentTime.toLocaleString();
-              var timeBlock = document.createElement("p");
-              timeBlock.textContent = currentTime.split(" ")[1];
-              hourlyWeatherBox.appendChild(timeBlock);
+              // var timeBlock = document.createElement("p");
+              // timeBlock.textContent = currentTime.split(" ")[1];
+              // hourlyWeatherBox.appendChild(timeBlock);
               weatherImg = document.createElement("img");
               weatherImg.setAttribute(
                 "src",
@@ -162,7 +178,7 @@ function callAPI(urlLink) {
               );
               hourlyWeatherBox.appendChild(weatherImg);
               hourlyTemp = document.createElement("p");
-              hourlyTemp.textContent = data.daily[0].temp + " °F";
+              hourlyTemp.textContent = data.daily[0].temp.day + " °F";
               hourlyWeatherBox.appendChild(hourlyTemp);
             });
 
@@ -182,6 +198,10 @@ function callAPI(urlLink) {
 
               if (hikingArray.length > 4) {
                 hikingArray.length = 4;
+              }
+              for (let i = 0; i < hikeCards.length; i++) {
+                let card = hikeCards[i];
+                card.classList.remove("hidden");
               }
 
               for (var i = 0; i < hikingArray.length; i++) {
@@ -216,12 +236,12 @@ function callAPI(urlLink) {
 
                   for (var i = 0; i < hikingArray.length - 1; i++) {
                     if (
-                      this.parentElement.parentElement.nextElementSibling ===
+                      this.parentElement.parentElement.parentElement.nextElementSibling ===
                       null
                     ) {
-                      this.parentElement.parentElement.previousElementSibling.remove();
+                      this.parentElement.parentElement.parentElement.previousElementSibling.remove();
                     } else {
-                      this.parentElement.parentElement.nextElementSibling.remove();
+                      this.parentElement.parentElement.parentElement.nextElementSibling.remove();
                     }
                   }
                   this.remove();
@@ -279,7 +299,14 @@ function callAPI(urlLink) {
                       window.open(this.value, "_target");
                     });
                   }
+                  for (let i = 0; i < brewCards.length; i++) {
+                    let card = brewCards[i];
+                    console.log(card)
+                    card.classList.remove("hidden");
+                    
+                  }
                 });
+              
 
                 var detailsButton = document.createElement("button");
                 detailsButton.textContent = "Details";
@@ -317,7 +344,6 @@ if (searches === null) {
 }
 let pastSearches = document.getElementById("past-search");
 
-
 function renderSearches() {
   pastSearches.innerHTML = "";
   for (let i = 0; i < searches.length; i++) {
@@ -334,6 +360,7 @@ function renderSearches() {
       callAPI(urlLink);
     });
 
+
     pastSearches.appendChild(searchesLineElement);
   }
 }
@@ -341,4 +368,3 @@ function renderSearches() {
 renderSearches();
 //Need to add function to the last .then fetch after completed
 //
-
