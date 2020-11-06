@@ -8,9 +8,7 @@ var urlLink = searchButton.addEventListener("click", function () {
   urlLink = "https://developers.zomato.com/api/v2.1/cities?q=" + userCity.value;
   var stateDropdown = document.getElementById("state");
   userState = stateDropdown.value;
-  var hoursDropdown = document.getElementById("time");
-  hikeHours = hoursDropdown.value;
-  
+
   callAPI(urlLink);
   // let searchInput = document.getElementById("city-input");
   if (searches.length === 10) {
@@ -145,13 +143,14 @@ function callAPI(urlLink) {
             })
             .then(function (data) {
               console.log(data);
-              var hourlyWeatherBox = document.createElement("section");
-              body.appendChild(hourlyWeatherBox);
+              var hourlyWeatherBox = document.querySelector(".weatherCard");
+              console.log(hourlyWeatherBox);
               currentTime = new Date(Number(data.daily[0].dt) * 1000);
               console.log(currentTime);
               currentTime = currentTime.toLocaleString();
               var timeBlock = document.createElement("p");
-              timeBlock.textContent = currentTime.split(" ")[1];
+              console.log(currentTime.split(" "));
+              timeBlock.textContent = currentTime.split(" ")[0].slice(0, -1);
               hourlyWeatherBox.appendChild(timeBlock);
               weatherImg = document.createElement("img");
               weatherImg.setAttribute(
@@ -162,7 +161,7 @@ function callAPI(urlLink) {
               );
               hourlyWeatherBox.appendChild(weatherImg);
               hourlyTemp = document.createElement("p");
-              hourlyTemp.textContent = data.daily[0].temp + " °F";
+              hourlyTemp.textContent = data.daily[0].temp.day + " °F";
               hourlyWeatherBox.appendChild(hourlyTemp);
             });
 
@@ -316,7 +315,6 @@ if (searches === null) {
   searches = [];
 }
 let pastSearches = document.getElementById("past-search");
-
 
 function renderSearches() {
   pastSearches.innerHTML = "";

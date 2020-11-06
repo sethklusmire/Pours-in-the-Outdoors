@@ -11,19 +11,21 @@
 <body>
     <!-- HEADER AND NAVBAR -->
     <div class="block">
-        <nav class="navbar is is-success">
+        <nav class="navbar is-success">
             <div class="navbar-start">
                 <a href="" class="navbar-item">
                     <h1 class="title">Pours in the Outdoors</h1>
                 </a>
             </div>
-            <div class="navbar-end">
+            <div class="navbar-end navbar-menu">
                     <a href="https://openweathermap.org/api" class="navbar-item button is-success">Weather</a>
                     <a href="https://www.hikingproject.com/data" class="navbar-item button is-success">Trails</a>
-                    <a href="https://developers.zomato.com/" class="nav-item button is-success">Breweries</a>
+                    <a href="https://developers.zomato.com/" class="navbar-item button is-success">Breweries</a>
             </div>
-         </nav>
+        </nav>
     </div>
+    
+    <!-- past searches -->
     <div class="block">
         <div class="columns">
             <div class="column is-2">
@@ -31,13 +33,13 @@
                     <div class="col">
                       <div class="card my-1" style="height: 20rem">
                         <div class="card-body" id="current">
-                          <h5 class="card-title past-searches">Past</h5>
+                          <h5 class="card-title past-searches title">Past Searches</h5>
                           <ul class="list-group" id="past-search">
                             <li class="list-group-item"></li>
                         </div>
                       </div>
                     </div>
-                  </div>
+                </div>
             </div>
             <div class="column is-7">
                 <!-- CONTENT BOX -->
@@ -53,7 +55,7 @@
                             <div class="dropdown is-right is-hoverable">
                                 <!-- class for the STATE array -->
                                 <div class="dropdown-trigger state-drop">
-                                  <button class="button city-input" aria-haspopup="true" aria-controls="dropdown-menu6">
+                                  <button class="button city-input" id="state-name" aria-haspopup="true" aria-controls="dropdown-menu6">
                                     <span>State</span>
                                     <span class="icon is-small">
                                       <i class="fas fa-angle-down" aria-hidden="true"></i>
@@ -81,7 +83,7 @@
                 </aside>
         </div>
         <div class="columns is-multiline is-mobile">            
-                <div class="card hikecard">
+                <div class="card hikecard hidden">
                     <div class="card-image">
                         <figure class="image is-4by3">
                           <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image" id = "hikeimg0">
@@ -94,7 +96,7 @@
                 </div>       
             
             
-                <div class="card hikecard hidden">
+                <div class="card hikecard">
                     <div class="card-image">
                         <figure class="image is-4by3">
                           <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image" id = "hikeimg1">
