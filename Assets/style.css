@@ -6,9 +6,11 @@ body {
   background-color: azure;
 }
 
-/* .navbar {
+
+.navbar {
   background-color: hsl(141, 53%, 53%);
-} */
+}
+
 
 .footer {
   background-color: azure;
@@ -27,3 +29,4 @@ body {
 .hidden {
     display: none;
 }
+

@@ -1,9 +1,19 @@
-// var body = document.querySelector("body");
 var userCity = document.querySelector(".input");
 var searchButton = document.querySelector(".is-info");
 var hikeHours = "";
 var userState = "";
 
+let hikeCards = document.querySelectorAll(".hikecard");
+let brewCards = document.querySelectorAll(".brewcard");
+
+for (let i = 0; i < hikeCards.length; i++) {
+  let card = hikeCards[i];
+  card.classList.add("hidden");
+}
+for (let i = 0; i < brewCards.length; i++) {
+  let card = brewCards[i];
+  card.classList.add("hidden");
+}
 var urlLink = searchButton.addEventListener("click", function () {
   var stateDropdown = document.getElementById("state");
   userState = stateDropdown.value;
@@ -20,7 +30,6 @@ var urlLink = searchButton.addEventListener("click", function () {
   if (searches.length === 10) {
     searches.pop();
   }
-
   searches.unshift([userCity.value, userState]);
 
   localStorage.setItem("searches", JSON.stringify(searches));
@@ -152,6 +161,7 @@ function callAPI(urlLink) {
               return response.json();
             })
             .then(function (data) {
+
               var weatherBox = document.querySelector(".weatherCard");
               currentDate = new Date(Number(data.daily[0].dt) * 1000);
               currentDate = currentDate.toLocaleString();
@@ -189,6 +199,11 @@ function callAPI(urlLink) {
                 hikingArray.length = 4;
               }
 
+              for (let i = 0; i < hikeCards.length; i++) {
+                let card = hikeCards[i];
+                card.classList.remove("hidden");
+              }
+
               for (var i = 0; i < hikingArray.length; i++) {
                 var cardHolder = document.querySelector("#hikecard" + [i]);
                 var hikePic = document.querySelector("#hikeimg" + [i]);
@@ -212,19 +227,21 @@ function callAPI(urlLink) {
                 ]);
                 selectButton.textContent = "Select";
                 selectButton.addEventListener("click", function () {
-                  selectionCoodsArray = Array.from(this.value.split(","));
+                  selectionCoodsArray = Array.from(
+                    selectButton.value.split(",")
+                  );
                   var lat1 = selectionCoodsArray[0];
                   var long1 = selectionCoodsArray[1];
-                  console.log(selectionCoodsArray);
 
                   for (var i = 0; i < hikingArray.length - 1; i++) {
                     if (
-                      this.parentElement.parentElement.nextElementSibling ===
+                      this.parentElement.parentElement.parentElement.nextElementSibling ===
                       null
                     ) {
-                      this.parentElement.parentElement.previousElementSibling.remove();
+                      this.parentElement.parentElement.parentElement.previousElementSibling.remove();
                     } else {
-                      this.parentElement.parentElement.nextElementSibling.remove();
+                      this.parentElement.parentElement.parentElement.nextElementSibling.remove();
+
                     }
                   }
                   this.remove();
@@ -282,7 +299,15 @@ function callAPI(urlLink) {
                       window.open(this.value, "_target");
                     });
                   }
+                  for (let i = 0; i < brewCards.length; i++) {
+                    let card = brewCards[i];
+                    console.log(card)
+                    card.classList.remove("hidden");
+                    
+                  }
                 });
+              
+
 
                 var detailsButton = document.createElement("button");
                 detailsButton.textContent = "Details";
@@ -316,7 +341,7 @@ function calcDistance(lat1, lat2, long1, long2) {
 }
 
 let searches = JSON.parse(localStorage.getItem("searches"));
-console.log(searches);
+
 if (searches === null) {
   searches = [];
 }
@@ -337,6 +362,7 @@ function renderSearches() {
       urlLink = "https://developers.zomato.com/api/v2.1/cities?q=" + userCity;
       callAPI(urlLink);
     });
+
 
     pastSearches.appendChild(searchesLineElement);
   }
@@ -385,3 +411,4 @@ function resetPage() {
     brewCard.appendChild(brewName);
   }
 }
+
