@@ -1,0 +1,24 @@
+.block {
+  background-color: azure;
+}
+body {
+  background-color: azure;
+}
+
+.navbar {
+  background-color: hsl(141, 53%, 53%);
+}
+
+.footer {
+  background-color: azure;
+}
+
+.hikecard {
+  height: 500px;
+  margin: 15px;
+}
+
+.brewcard {
+  height: 600px;
+  margin: 15px;
+}
