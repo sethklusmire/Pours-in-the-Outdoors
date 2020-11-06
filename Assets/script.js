@@ -309,11 +309,14 @@ function calcDistance(lat1, lat2, long1, long2) {
   return combinedEq;
 }
 
+
 let searches = JSON.parse(localStorage.getItem("searches"));
+
 if (searches === null) {
   searches = [];
 }
 let pastSearches = document.getElementById("past-search");
+
 
 function renderSearches() {
   pastSearches.innerHTML = "";
@@ -336,5 +339,6 @@ function renderSearches() {
 }
 
 renderSearches();
+
 //Need to add function to the last .then fetch after completed
 //
