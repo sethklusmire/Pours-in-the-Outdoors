@@ -22,3 +22,7 @@ body {
   height: 600px;
   margin: 15px;
 }
+
+.hidden {
+    display: none;
+}
