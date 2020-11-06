@@ -1,27 +1,37 @@
-var body = document.querySelector("body");
+// var body = document.querySelector("body");
 var userCity = document.querySelector(".input");
 var searchButton = document.querySelector(".is-info");
 var hikeHours = "";
 var userState = "";
 
 var urlLink = searchButton.addEventListener("click", function () {
-  urlLink = "https://developers.zomato.com/api/v2.1/cities?q=" + userCity.value;
   var stateDropdown = document.getElementById("state");
   userState = stateDropdown.value;
+  if (userCity.value === "" || userState === "") {
+    return;
+  }
+
+  resetPage();
+
+  urlLink = "https://developers.zomato.com/api/v2.1/cities?q=" + userCity.value;
 
   callAPI(urlLink);
   // let searchInput = document.getElementById("city-input");
   if (searches.length === 10) {
     searches.pop();
   }
-  searches.unshift([userCity.value, userState, hikeHours]);
+
+  searches.unshift([userCity.value, userState]);
+
   localStorage.setItem("searches", JSON.stringify(searches));
   renderSearches();
+  userCity.value = "";
   // var cardSelector = document.getElementsByClassName(".hikecard");
   // cardSelector.setAttribute("style", "visibility: visible");
 });
 
 var usStates = [
+  { name: "Select State", abbreviation: "" },
   { name: "ALABAMA", abbreviation: "AL" },
   { name: "ALASKA", abbreviation: "AK" },
   { name: "AMERICAN SAMOA", abbreviation: "AS" },
@@ -142,16 +152,12 @@ function callAPI(urlLink) {
               return response.json();
             })
             .then(function (data) {
-              console.log(data);
-              var hourlyWeatherBox = document.querySelector(".weatherCard");
-              console.log(hourlyWeatherBox);
-              currentTime = new Date(Number(data.daily[0].dt) * 1000);
-              console.log(currentTime);
-              currentTime = currentTime.toLocaleString();
+              var weatherBox = document.querySelector(".weatherCard");
+              currentDate = new Date(Number(data.daily[0].dt) * 1000);
+              currentDate = currentDate.toLocaleString();
               var timeBlock = document.createElement("p");
-              console.log(currentTime.split(" "));
-              timeBlock.textContent = currentTime.split(" ")[0].slice(0, -1);
-              hourlyWeatherBox.appendChild(timeBlock);
+              timeBlock.textContent = currentDate.split(" ")[0].slice(0, -1);
+              weatherBox.appendChild(timeBlock);
               weatherImg = document.createElement("img");
               weatherImg.setAttribute(
                 "src",
@@ -159,10 +165,10 @@ function callAPI(urlLink) {
                   data.daily[0].weather[0].icon +
                   "@2x.png"
               );
-              hourlyWeatherBox.appendChild(weatherImg);
+              weatherBox.appendChild(weatherImg);
               hourlyTemp = document.createElement("p");
               hourlyTemp.textContent = data.daily[0].temp.day + " °F";
-              hourlyWeatherBox.appendChild(hourlyTemp);
+              weatherBox.appendChild(hourlyTemp);
             });
 
           urlHike =
@@ -185,7 +191,6 @@ function callAPI(urlLink) {
 
               for (var i = 0; i < hikingArray.length; i++) {
                 var cardHolder = document.querySelector("#hikecard" + [i]);
-                // body.appendChild(cardHolder);
                 var hikePic = document.querySelector("#hikeimg" + [i]);
                 hikePic.setAttribute("src", hikingArray[i].imgSmallMed);
                 var hikeName = document.querySelector("#hiketitle" + [i]);
@@ -207,11 +212,10 @@ function callAPI(urlLink) {
                 ]);
                 selectButton.textContent = "Select";
                 selectButton.addEventListener("click", function () {
-                  selectionCoodsArray = Array.from(
-                    selectButton.value.split(",")
-                  );
+                  selectionCoodsArray = Array.from(this.value.split(","));
                   var lat1 = selectionCoodsArray[0];
                   var long1 = selectionCoodsArray[1];
+                  console.log(selectionCoodsArray);
 
                   for (var i = 0; i < hikingArray.length - 1; i++) {
                     if (
@@ -288,6 +292,7 @@ function callAPI(urlLink) {
                 });
 
                 // cardHolder.appendChild(hikeName);
+
                 cardHolder.appendChild(hikeCity);
                 cardHolder.appendChild(elevationData);
                 cardHolder.appendChild(hikeDifficulty);
@@ -311,6 +316,7 @@ function calcDistance(lat1, lat2, long1, long2) {
 }
 
 let searches = JSON.parse(localStorage.getItem("searches"));
+console.log(searches);
 if (searches === null) {
   searches = [];
 }
@@ -339,3 +345,43 @@ function renderSearches() {
 renderSearches();
 //Need to add function to the last .then fetch after completed
 //
+function resetPage() {
+  var weatherBox = document.querySelector(".weatherCard");
+  while (weatherBox.firstChild) {
+    weatherBox.removeChild(weatherBox.firstChild);
+  }
+  var weatherReport = document.createElement("p");
+  weatherReport.setAttribute("class", "title");
+  weatherReport.textContent = "Weather Report";
+  weatherBox.appendChild(weatherReport);
+  for (var i = 0; i < 4; i++) {
+    var hikePic = document.querySelector("#hikeimg" + [i]);
+    hikePic.setAttribute(
+      "src",
+      "https://bulma.io/images/placeholders/1280x960.png"
+    );
+    var hikeCard = document.querySelector("#hikecard" + [i]);
+    while (hikeCard.firstChild) {
+      hikeCard.removeChild(hikeCard.firstChild);
+    }
+    var hikeName = document.createElement("p");
+    hikeName.setAttribute("class", "title");
+    hikeName.setAttribute("id", "hiketitle" + [i]);
+    hikeCard.appendChild(hikeName);
+  }
+  for (var i = 0; i < 4; i++) {
+    var brewPic = document.querySelector("#brewimg" + [i]);
+    brewPic.setAttribute(
+      "src",
+      "https://bulma.io/images/placeholders/1280x960.png"
+    );
+    var brewCard = document.querySelector("#brewcard" + [i]);
+    while (brewCard.firstChild) {
+      brewCard.removeChild(brewCard.firstChild);
+    }
+    var brewName = document.createElement("p");
+    brewName.setAttribute("class", "title");
+    brewName.setAttribute("id", "brewTitle" + [i]);
+    brewCard.appendChild(brewName);
+  }
+}
