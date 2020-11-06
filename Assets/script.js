@@ -8,9 +8,7 @@ var urlLink = searchButton.addEventListener("click", function () {
   urlLink = "https://developers.zomato.com/api/v2.1/cities?q=" + userCity.value;
   var stateDropdown = document.getElementById("state");
   userState = stateDropdown.value;
-  var hoursDropdown = document.getElementById("time");
-  hikeHours = hoursDropdown.value;
-  
+
   callAPI(urlLink);
   // let searchInput = document.getElementById("city-input");
   if (searches.length === 10) {
