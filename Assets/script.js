@@ -8,30 +8,18 @@ var urlLink = searchButton.addEventListener("click", function () {
   urlLink = "https://developers.zomato.com/api/v2.1/cities?q=" + userCity.value;
   var stateDropdown = document.getElementById("state");
   userState = stateDropdown.value;
-  var hoursDropdown = document.getElementById("time");
-  hikeHours = hoursDropdown.value;
   callAPI(urlLink);
   // let searchInput = document.getElementById("city-input");
   if (searches.length === 10) {
     searches.pop();
   }
-  searches.unshift([userCity.value, userState, hikeHours]);
+  searches.unshift([userCity.value, userState]);
   localStorage.setItem("searches", JSON.stringify(searches));
   renderSearches();
 
   // var cardSelector = document.getElementsByClassName(".hikecard");
   // cardSelector.setAttribute("style", "visibility: visible");
 });
-
-var timeFrame = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-
-for (var i = 0; i < timeFrame.length; i++) {
-  var option = document.createElement("option");
-  option.text = timeFrame[i];
-  option.value = timeFrame[i];
-  var select = document.getElementById("time");
-  select.appendChild(option);
-}
 
 var usStates = [
   { name: "ALABAMA", abbreviation: "AL" },
