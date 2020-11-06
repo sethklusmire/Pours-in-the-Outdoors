@@ -23,16 +23,6 @@ var urlLink = searchButton.addEventListener("click", function () {
   // cardSelector.setAttribute("style", "visibility: visible");
 });
 
-var timeFrame = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-
-for (var i = 0; i < timeFrame.length; i++) {
-  var option = document.createElement("option");
-  option.text = timeFrame[i];
-  option.value = timeFrame[i];
-  var select = document.getElementById("time");
-  select.appendChild(option);
-}
-
 var usStates = [
   { name: "ALABAMA", abbreviation: "AL" },
   { name: "ALASKA", abbreviation: "AK" },
@@ -326,6 +316,7 @@ if (searches === null) {
   searches = [];
 }
 let pastSearches = document.getElementById("past-search");
+
 
 function renderSearches() {
   pastSearches.innerHTML = "";
