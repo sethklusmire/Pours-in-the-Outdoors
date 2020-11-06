@@ -15,7 +15,7 @@ var urlLink = searchButton.addEventListener("click", function () {
   if (searches.length === 10) {
     searches.pop();
   }
-  searches.unshift(userCity.value);
+  searches.unshift([userCity.value, userState, hikeHours]);
   localStorage.setItem("searches", JSON.stringify(searches));
   renderSearches();
 
@@ -147,33 +147,33 @@ function callAPI(urlLink) {
             userLat +
             "&lon=" +
             userLon +
-            "&exclude=current,minutely,daily,alerts&units=imperial&appid=96bbb97e9dec979e1eede50c7d6896d7";
+            "&exclude=current,minutely,hourly,alerts&units=imperial&appid=96bbb97e9dec979e1eede50c7d6896d7";
 
           fetch(urlWeather)
             .then(function (response) {
               return response.json();
             })
             .then(function (data) {
-              for (var i = 0; i < hikeHours; i++) {
-                var hourlyWeatherBox = document.createElement("section");
-                body.appendChild(hourlyWeatherBox);
-                currentTime = new Date(Number(data.hourly[i].dt) * 1000);
-                currentTime = currentTime.toLocaleString();
-                var timeBlock = document.createElement("p");
-                timeBlock.textContent = currentTime.split(" ")[1];
-                hourlyWeatherBox.appendChild(timeBlock);
-                weatherImg = document.createElement("img");
-                weatherImg.setAttribute(
-                  "src",
-                  "http://openweathermap.org/img/wn/" +
-                    data.hourly[i].weather[0].icon +
-                    "@2x.png"
-                );
-                hourlyWeatherBox.appendChild(weatherImg);
-                hourlyTemp = document.createElement("p");
-                hourlyTemp.textContent = data.hourly[i].temp + " °F";
-                hourlyWeatherBox.appendChild(hourlyTemp);
-              }
+              console.log(data);
+              var hourlyWeatherBox = document.createElement("section");
+              body.appendChild(hourlyWeatherBox);
+              currentTime = new Date(Number(data.daily[0].dt) * 1000);
+              console.log(currentTime);
+              currentTime = currentTime.toLocaleString();
+              var timeBlock = document.createElement("p");
+              timeBlock.textContent = currentTime.split(" ")[1];
+              hourlyWeatherBox.appendChild(timeBlock);
+              weatherImg = document.createElement("img");
+              weatherImg.setAttribute(
+                "src",
+                "http://openweathermap.org/img/wn/" +
+                  data.daily[0].weather[0].icon +
+                  "@2x.png"
+              );
+              hourlyWeatherBox.appendChild(weatherImg);
+              hourlyTemp = document.createElement("p");
+              hourlyTemp.textContent = data.daily[0].temp + " °F";
+              hourlyWeatherBox.appendChild(hourlyTemp);
             });
 
           urlHike =
@@ -330,12 +330,17 @@ let pastSearches = document.getElementById("past-search");
 function renderSearches() {
   pastSearches.innerHTML = "";
   for (let i = 0; i < searches.length; i++) {
-    let searchesLineItem = searches[i];
+    let searchesLineItem = searches[i][0];
     let searchesLineElement = document.createElement("li");
     searchesLineElement.classList.add("list-group-item");
+    searchesLineElement.setAttribute("value", searches[i][1]);
     searchesLineElement.textContent = searchesLineItem;
     searchesLineElement.addEventListener("click", function () {
-      callAPI(searchesLineItem);
+      userCity = this.textContent;
+      userState = searchesLineElement.getAttribute("value");
+      console.log(userState);
+      urlLink = "https://developers.zomato.com/api/v2.1/cities?q=" + userCity;
+      callAPI(urlLink);
     });
 
     pastSearches.appendChild(searchesLineElement);
