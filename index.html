@@ -6,24 +6,26 @@
     <link rel="stylesheet" href="Assets/style.css"
     <script defer src="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.1/css/bulma.min.css" integrity="sha512-ZRv40llEogRmoWgZwnsqke3HNzJ0kiI0+pcMgiz2bxO6Ew1DVBtWjVn0qjrXdT3+u+pSN36gLgmJiiQ3cQtyzA==" crossorigin="anonymous" />
-    <title>Will Hike 4 Beerz</title>
+    <title>Pours in the Outdoors</title>
 </head>
 <body>
     <!-- HEADER AND NAVBAR -->
     <div class="block">
-        <nav class="navbar is is-success">
+        <nav class="navbar is-success">
             <div class="navbar-start">
                 <a href="" class="navbar-item">
                     <h1 class="title">Pours in the Outdoors</h1>
                 </a>
             </div>
-            <div class="navbar-end">
+            <div class="navbar-end navbar-menu">
                     <a href="https://openweathermap.org/api" class="navbar-item button is-success">Weather</a>
                     <a href="https://www.hikingproject.com/data" class="navbar-item button is-success">Trails</a>
-                    <a href="https://developers.zomato.com/" class="nav-item button is-success">Breweries</a>
+                    <a href="https://developers.zomato.com/" class="navbar-item button is-success">Breweries</a>
             </div>
-         </nav>
+        </nav>
     </div>
+    
+    <!-- past searches -->
     <div class="block">
         <div class="columns">
             <div class="column is-2">
@@ -31,13 +33,13 @@
                     <div class="col">
                       <div class="card my-1" style="height: 20rem">
                         <div class="card-body" id="current">
-                          <h5 class="card-title past-searches">Past</h5>
+                          <h5 class="card-title past-searches">Past Searches</h5>
                           <ul class="list-group" id="past-search">
                             <li class="list-group-item"></li>
                         </div>
                       </div>
                     </div>
-                  </div>
+                </div>
             </div>
             <div class="column is-7">
                 <!-- CONTENT BOX -->
@@ -68,24 +70,6 @@
                                   </div>
                                 </div>
                               </div>
-                              <div class="dropdown is-right is-hoverable">
-                                <!-- class for the STATE array -->
-                                <div class="dropdown-trigger state-drop">
-                                  <button class="button city-input" aria-haspopup="true" aria-controls="dropdown-menu6">
-                                    <span>Timeframe</span>
-                                    <span class="icon is-small">
-                                      <i class="fas fa-angle-down" aria-hidden="true"></i>
-                                    </span>
-                                  </button>
-                                </div>
-                                <div class="dropdown-menu" id="dropdown-menu6" role="menu">
-                                  <div class="dropdown-content">
-                                    <div class="dropdown-item">
-                                        <select id="time" name="timeFrame"></select>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
                             <p class="control">
                                 <button class="button is-info">Search</button>
                             </p>
@@ -93,12 +77,13 @@
                     </div>
                 </div>
             </div>
+            
             <!-- This is where the WEATHER will go -->
             <aside class="column is-1">         
                 </aside>
         </div>
         <div class="columns is-multiline is-mobile">            
-                <div class="card hikecard">
+                <div class="card hikecard hidden">
                     <div class="card-image">
                         <figure class="image is-4by3">
                           <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image" id = "hikeimg0">
@@ -165,9 +150,6 @@
                       </p>                     
                     </div>
                   </div>
-              
-            
-            
                 <div class="card brewcard">
                     <div class="card-image">
                         <figure class="image is-4by3">
@@ -179,9 +161,6 @@
                       </p>                      
                     </div>
                   </div>
-              
-            
-            
                 <div class="card brewcard">
                     <div class="card-image">
                         <figure class="image is-4by3">
@@ -206,7 +185,6 @@
                       </p>                      
                     </div>
                   </div>
-              
         </div>
     </div>
 

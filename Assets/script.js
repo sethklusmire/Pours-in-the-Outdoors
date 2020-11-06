@@ -10,20 +10,18 @@ var urlLink = searchButton.addEventListener("click", function () {
   userState = stateDropdown.value;
   var hoursDropdown = document.getElementById("time");
   hikeHours = hoursDropdown.value;
-  callAPI();
+  
+  callAPI(urlLink);
+  // let searchInput = document.getElementById("city-input");
+  if (searches.length === 10) {
+    searches.pop();
+  }
+  searches.unshift([userCity.value, userState, hikeHours]);
+  localStorage.setItem("searches", JSON.stringify(searches));
+  renderSearches();
   // var cardSelector = document.getElementsByClassName(".hikecard");
   // cardSelector.setAttribute("style", "visibility: visible");
 });
-
-var timeFrame = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-
-for (var i = 0; i < timeFrame.length; i++) {
-  var option = document.createElement("option");
-  option.text = timeFrame[i];
-  option.value = timeFrame[i];
-  var select = document.getElementById("time");
-  select.appendChild(option);
-}
 
 var usStates = [
   { name: "ALABAMA", abbreviation: "AL" },
@@ -95,7 +93,7 @@ for (var i = 0; i < usStates.length; i++) {
   select.appendChild(option);
 }
 
-function callAPI() {
+function callAPI(urlLink) {
   fetch(urlLink, {
     headers: {
       "user-key": "2d7d4ca953bf2eda6fef41cd6db1962f",
@@ -106,7 +104,6 @@ function callAPI() {
       return response.json();
     })
     .then(function (data) {
-      console.log(userState);
       for (var i = 0; i < data.location_suggestions.length; i++) {
         if (data.location_suggestions[i].state_code === userState) {
           var cityID = data.location_suggestions[i].id;
@@ -140,33 +137,33 @@ function callAPI() {
             userLat +
             "&lon=" +
             userLon +
-            "&exclude=current,minutely,daily,alerts&units=imperial&appid=96bbb97e9dec979e1eede50c7d6896d7";
+            "&exclude=current,minutely,hourly,alerts&units=imperial&appid=96bbb97e9dec979e1eede50c7d6896d7";
 
           fetch(urlWeather)
             .then(function (response) {
               return response.json();
             })
             .then(function (data) {
-              for (var i = 0; i < hikeHours; i++) {
-                var hourlyWeatherBox = document.createElement("section");
-                body.appendChild(hourlyWeatherBox);
-                currentTime = new Date(Number(data.hourly[i].dt) * 1000);
-                currentTime = currentTime.toLocaleString();
-                var timeBlock = document.createElement("p");
-                timeBlock.textContent = currentTime.split(" ")[1];
-                hourlyWeatherBox.appendChild(timeBlock);
-                weatherImg = document.createElement("img");
-                weatherImg.setAttribute(
-                  "src",
-                  "http://openweathermap.org/img/wn/" +
-                    data.hourly[i].weather[0].icon +
-                    "@2x.png"
-                );
-                hourlyWeatherBox.appendChild(weatherImg);
-                hourlyTemp = document.createElement("p");
-                hourlyTemp.textContent = data.hourly[i].temp + " °F";
-                hourlyWeatherBox.appendChild(hourlyTemp);
-              }
+              console.log(data);
+              var hourlyWeatherBox = document.createElement("section");
+              body.appendChild(hourlyWeatherBox);
+              currentTime = new Date(Number(data.daily[0].dt) * 1000);
+              console.log(currentTime);
+              currentTime = currentTime.toLocaleString();
+              var timeBlock = document.createElement("p");
+              timeBlock.textContent = currentTime.split(" ")[1];
+              hourlyWeatherBox.appendChild(timeBlock);
+              weatherImg = document.createElement("img");
+              weatherImg.setAttribute(
+                "src",
+                "http://openweathermap.org/img/wn/" +
+                  data.daily[0].weather[0].icon +
+                  "@2x.png"
+              );
+              hourlyWeatherBox.appendChild(weatherImg);
+              hourlyTemp = document.createElement("p");
+              hourlyTemp.textContent = data.daily[0].temp + " °F";
+              hourlyWeatherBox.appendChild(hourlyTemp);
             });
 
           urlHike =
@@ -182,14 +179,12 @@ function callAPI() {
             })
             .then(function (data) {
               var hikingArray = data.trails;
-              console.log(hikingArray);
+
               if (hikingArray.length > 4) {
                 hikingArray.length = 4;
               }
-              console.log(hikingArray);
 
               for (var i = 0; i < hikingArray.length; i++) {
-                console.log(i);
                 var cardHolder = document.querySelector("#hikecard" + [i]);
                 // body.appendChild(cardHolder);
                 var hikePic = document.querySelector("#hikeimg" + [i]);
@@ -218,9 +213,7 @@ function callAPI() {
                   );
                   var lat1 = selectionCoodsArray[0];
                   var long1 = selectionCoodsArray[1];
-                  // console.log(selectionCoodsArray);
-                  // console.log(selectButton.value);
-                  console.log(this.parentElement.parentElement);
+
                   for (var i = 0; i < hikingArray.length - 1; i++) {
                     if (
                       this.parentElement.parentElement.nextElementSibling ===
@@ -233,7 +226,6 @@ function callAPI() {
                   }
                   this.remove();
                   for (var j = 0; j < restaurantArray.length; j++) {
-                    // console.log(restaurantArray[i].restaurant.location.latitude);
                     restaurantArray[j].distance = calcDistance(
                       lat1,
                       restaurantArray[j].restaurant.location.latitude,
@@ -248,7 +240,7 @@ function callAPI() {
                   if (restaurantArray.length > 4) {
                     restaurantArray.length = 4;
                   }
-                  console.log(restaurantArray);
+
                   for (var k = 0; k < restaurantArray.length; k++) {
                     var breweryBox = document.querySelector("#brewcard" + [k]);
                     var restaurantImg = document.querySelector(
@@ -309,10 +301,6 @@ function callAPI() {
 }
 
 function calcDistance(lat1, lat2, long1, long2) {
-  // console.log(lat1);
-  // console.log(lat2);
-  // console.log(long1);
-  // console.log(long2);
   lat1Sin = Math.sin((lat1 * Math.PI) / 180);
   lat2Sin = Math.sin((lat2 * Math.PI) / 180);
   lat1Cos = Math.cos((lat1 * Math.PI) / 180);
@@ -323,43 +311,34 @@ function calcDistance(lat1, lat2, long1, long2) {
   return combinedEq;
 }
 
-let searches = JSON.parse(localStorage.getItem("searches"))
+let searches = JSON.parse(localStorage.getItem("searches"));
 if (searches === null) {
   searches = [];
 }
 let pastSearches = document.getElementById("past-search");
 
+
 function renderSearches() {
   pastSearches.innerHTML = "";
   for (let i = 0; i < searches.length; i++) {
-    let searchesLineItem = searches[i];
+    let searchesLineItem = searches[i][0];
     let searchesLineElement = document.createElement("li");
     searchesLineElement.classList.add("list-group-item");
+    searchesLineElement.setAttribute("value", searches[i][1]);
     searchesLineElement.textContent = searchesLineItem;
     searchesLineElement.addEventListener("click", function () {
-      callAPI(searchesLineItem);
+      userCity = this.textContent;
+      userState = searchesLineElement.getAttribute("value");
+      console.log(userState);
+      urlLink = "https://developers.zomato.com/api/v2.1/cities?q=" + userCity;
+      callAPI(urlLink);
     });
-    
+
     pastSearches.appendChild(searchesLineElement);
   }
 }
-searchButton.addEventListener("click", function () {
-  let searchInput = document.getElementById("city-input")
-  if (searches.length === 10) {
-    searches.pop();
-  }
 
-  searches.unshift(searchInput.value);
-
-  localStorage.setItem("searches", JSON.stringify(searches));
-
-  renderSearches();
-
-  callAPI(searchInput.value);
-  searchInput.value = "";
-
-})
 renderSearches();
-
-
+//Need to add function to the last .then fetch after completed
+//
 
