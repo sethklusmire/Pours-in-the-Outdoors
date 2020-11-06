@@ -323,6 +323,43 @@ function calcDistance(lat1, lat2, long1, long2) {
   return combinedEq;
 }
 
+// let searches = JSON.parse(localStorage.getItem("searches"))
+// if (searches === null) {
+//   searches = [];
+// }
+// let pastSearches = document.getElementById("past-search");
+
+// function renderSearches() {
+//   pastSearches.innerHTML = "";
+//   for (let i = 0; i < searches.length; i++) {
+//     let searchesLineItem = searches[i];
+//     let searchesLineElement = document.createElement("li");
+//     searchesLineElement.classList.add("list-group-item");
+//     searchesLineElement.textContent = searchesLineItem;
+//     searchesLineElement.addEventListener("click", function () {
+//       callAPI(searchesLineItem);
+//     });
+    
+//     pastSearches.appendChild(searchesLineElement);
+//   }
+// }
+// searchButton.addEventListener("click", function () {
+//   let searchInput = document.getElementById("city-input")
+//   if (searches.length === 10) {
+//     searches.pop();
+//   }
+
+//   searches.unshift(searchInput.value);
+
+//   localStorage.setItem("searches", JSON.stringify(searches));
+
+//   renderSearches();
+
+//   callAPI(searchInput.value);
+//   searchInput.value = "";
+
+// })
+// renderSearches();
 //Need to add function to the last .then fetch after completed
 // function createStuff() {
 //   for (var i = 0; i < 10; i++) {
