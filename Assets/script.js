@@ -371,43 +371,43 @@ function renderSearches() {
 renderSearches();
 //Need to add function to the last .then fetch after completed
 //
-// function resetPage() {
-//   var weatherBox = document.querySelector(".weatherCard");
-//   while (weatherBox.firstChild) {
-//     weatherBox.removeChild(weatherBox.firstChild);
-//   }
-//   var weatherReport = document.createElement("p");
-//   weatherReport.setAttribute("class", "title");
-//   weatherReport.textContent = "Weather Report";
-//   weatherBox.appendChild(weatherReport);
-//   for (var i = 0; i < 4; i++) {
-//     var hikePic = document.querySelector("#hikeimg" + [i]);
-//     hikePic.setAttribute(
-//       "src",
-//       "https://bulma.io/images/placeholders/1280x960.png"
-//     );
-//     var hikeCard = document.querySelector("#hikecard" + [i]);
-//     while (hikeCard.firstChild) {
-//       hikeCard.removeChild(hikeCard.firstChild);
-//     }
-//     var hikeName = document.createElement("p");
-//     hikeName.setAttribute("class", "title");
-//     hikeName.setAttribute("id", "hiketitle" + [i]);
-//     hikeCard.appendChild(hikeName);
-//   }
-//   for (var i = 0; i < 4; i++) {
-//     var brewPic = document.querySelector("#brewimg" + [i]);
-//     brewPic.setAttribute(
-//       "src",
-//       "https://bulma.io/images/placeholders/1280x960.png"
-//     );
-//     var brewCard = document.querySelector("#brewcard" + [i]);
-//     while (brewCard.firstChild) {
-//       brewCard.removeChild(brewCard.firstChild);
-//     }
-//     var brewName = document.createElement("p");
-//     brewName.setAttribute("class", "title");
-//     brewName.setAttribute("id", "brewTitle" + [i]);
-//     brewCard.appendChild(brewName);
-//   }
-// }
+function resetPage() {
+  var weatherBox = document.querySelector(".weatherCard");
+  while (weatherBox.firstChild) {
+    weatherBox.removeChild(weatherBox.firstChild);
+  }
+  var weatherReport = document.createElement("p");
+  weatherReport.setAttribute("class", "title");
+  weatherReport.textContent = "Weather Report";
+  weatherBox.appendChild(weatherReport);
+  for (var i = 0; i < 4; i++) {
+    var hikePic = document.querySelector("#hikeimg" + [i]);
+    hikePic.setAttribute(
+      "src",
+      "https://bulma.io/images/placeholders/1280x960.png"
+    );
+    var hikeCard = document.querySelector("#hikecard" + [i]);
+    while (hikeCard.firstChild) {
+      hikeCard.removeChild(hikeCard.firstChild);
+    }
+    var hikeName = document.createElement("p");
+    hikeName.setAttribute("class", "title");
+    hikeName.setAttribute("id", "hiketitle" + [i]);
+    hikeCard.appendChild(hikeName);
+  }
+  for (var i = 0; i < 4; i++) {
+    var brewPic = document.querySelector("#brewimg" + [i]);
+    brewPic.setAttribute(
+      "src",
+      "https://bulma.io/images/placeholders/1280x960.png"
+    );
+    var brewCard = document.querySelector("#brewcard" + [i]);
+    while (brewCard.firstChild) {
+      brewCard.removeChild(brewCard.firstChild);
+    }
+    var brewName = document.createElement("p");
+    brewName.setAttribute("class", "title");
+    brewName.setAttribute("id", "brewTitle" + [i]);
+    brewCard.appendChild(brewName);
+  }
+}
