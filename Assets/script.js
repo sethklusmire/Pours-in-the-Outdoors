@@ -161,8 +161,7 @@ function callAPI(urlLink) {
               return response.json();
             })
             .then(function (data) {
-
-              var weatherBox = document.querySelector(".weatherCard");
+              var weatherBox = document.querySelector("#weather");
               currentDate = new Date(Number(data.daily[0].dt) * 1000);
               currentDate = currentDate.toLocaleString();
               var timeBlock = document.createElement("p");
@@ -227,21 +226,20 @@ function callAPI(urlLink) {
                 ]);
                 selectButton.textContent = "Select";
                 selectButton.addEventListener("click", function () {
-                  selectionCoodsArray = Array.from(
-                    selectButton.value.split(",")
-                  );
+                  selectionCoodsArray = Array.from(this.value.split(","));
                   var lat1 = selectionCoodsArray[0];
                   var long1 = selectionCoodsArray[1];
 
-                  for (var i = 0; i < hikingArray.length - 1; i++) {
+                  for (var i = 0; i < hikingArray.length; i++) {
+                    var card = hikeCards[i];
+                    console.log(card);
                     if (
-                      this.parentElement.parentElement.parentElement.nextElementSibling ===
-                      null
+                      i === Number(this.parentElement.getAttribute("id")[8])
                     ) {
-                      this.parentElement.parentElement.parentElement.previousElementSibling.remove();
+                      console.log("here");
+                      continue;
                     } else {
-                      this.parentElement.parentElement.parentElement.nextElementSibling.remove();
-
+                      card.classList.add("hidden");
                     }
                   }
                   this.remove();
@@ -301,13 +299,9 @@ function callAPI(urlLink) {
                   }
                   for (let i = 0; i < brewCards.length; i++) {
                     let card = brewCards[i];
-                    console.log(card)
                     card.classList.remove("hidden");
-                    
                   }
                 });
-              
-
 
                 var detailsButton = document.createElement("button");
                 detailsButton.textContent = "Details";
@@ -356,13 +350,13 @@ function renderSearches() {
     searchesLineElement.setAttribute("value", searches[i][1]);
     searchesLineElement.textContent = searchesLineItem;
     searchesLineElement.addEventListener("click", function () {
+      resetPage();
       userCity = this.textContent;
       userState = searchesLineElement.getAttribute("value");
       console.log(userState);
       urlLink = "https://developers.zomato.com/api/v2.1/cities?q=" + userCity;
       callAPI(urlLink);
     });
-
 
     pastSearches.appendChild(searchesLineElement);
   }
@@ -372,14 +366,19 @@ renderSearches();
 //Need to add function to the last .then fetch after completed
 //
 function resetPage() {
-  var weatherBox = document.querySelector(".weatherCard");
+  for (let i = 0; i < hikeCards.length; i++) {
+    let card = hikeCards[i];
+    card.classList.add("hidden");
+  }
+  for (let i = 0; i < brewCards.length; i++) {
+    let card = brewCards[i];
+    card.classList.add("hidden");
+  }
+  var weatherBox = document.querySelector("#weather");
   while (weatherBox.firstChild) {
     weatherBox.removeChild(weatherBox.firstChild);
   }
-  var weatherReport = document.createElement("p");
-  weatherReport.setAttribute("class", "title");
-  weatherReport.textContent = "Weather Report";
-  weatherBox.appendChild(weatherReport);
+
   for (var i = 0; i < 4; i++) {
     var hikePic = document.querySelector("#hikeimg" + [i]);
     hikePic.setAttribute(
@@ -411,4 +410,3 @@ function resetPage() {
     brewCard.appendChild(brewName);
   }
 }
-
