@@ -161,7 +161,9 @@ function callAPI(urlLink) {
               return response.json();
             })
             .then(function (data) {
+
               var weatherBox = document.querySelector("#weather");
+
               currentDate = new Date(Number(data.daily[0].dt) * 1000);
               currentDate = currentDate.toLocaleString();
               var timeBlock = document.createElement("p");
