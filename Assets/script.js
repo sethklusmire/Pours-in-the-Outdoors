@@ -52,7 +52,7 @@ searchButton.addEventListener("click", function () {
 
 //Array of objects for state data
 var usStates = [
-  { name: "Select State", abbreviation: "" },
+  { name: "State", abbreviation: "" },
   { name: "ALABAMA", abbreviation: "AL" },
   { name: "ALASKA", abbreviation: "AK" },
   { name: "AMERICAN SAMOA", abbreviation: "AS" },
@@ -117,7 +117,7 @@ var usStates = [
 //For loop to add state options to dropdown
 for (var i = 0; i < usStates.length; i++) {
   var option = document.createElement("option");
-  option.text = usStates[i].name + " [" + usStates[i].abbreviation + "]";
+  option.text = usStates[i].name + (usStates[i].abbreviation ? `[${usStates[i].abbreviation}]` : '')
   option.value = usStates[i].abbreviation;
   var select = document.getElementById("state");
   select.appendChild(option);

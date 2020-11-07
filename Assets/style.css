@@ -29,4 +29,8 @@ body {
 .hidden {
     display: none;
 }
-
+@media only screen and (max-width: 575px) {
+    #state {
+      width: 100px;
+    } 
+  }
